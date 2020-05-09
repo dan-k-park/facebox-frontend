@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Particles from 'react-particles-js'
 import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
-import Navigation from './components/Navigation/Navigation';
+import Nav from './components/Nav/Nav';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
@@ -11,7 +11,7 @@ import Rank from './components/Rank/Rank';
 import './App.css';
 
 const app = new Clarifai.App({
-  apikey: 'scrambles'
+  apiKey: '3a26b90bf70c4409a173444a79c7f964'
 })
 
 const particlesOptions = {
@@ -114,7 +114,7 @@ class App extends Component {
     return (
       <div className='App'>
         <Particles className='particles' params={particlesOptions} />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        <Nav isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         { route === 'home' ? 
           <div>
             <Logo />
@@ -138,3 +138,5 @@ class App extends Component {
     )
   }
 }
+
+export default App
