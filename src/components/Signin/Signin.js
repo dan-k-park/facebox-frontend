@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Signin extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       signInEmail: '',
       signInPassword: ''
@@ -17,7 +17,7 @@ class Signin extends Component {
     this.setState({signInPassword: evt.target.value})
   }
 
-  onSubmitSignin = () => {
+  onSubmitSignIn = () => {
     fetch('http://localhost:3000/signin', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -26,13 +26,13 @@ class Signin extends Component {
         password: this.state.signInPassword
       })
     })
-    .then(res => res.json())
-    .then(user => {
-      if (user.id) {
-        this.props.loadUser(user)
-        this.props.onRouteChange('home')
-      }
-    })
+      .then(res => res.json())
+      .then(user => {
+        if (user.id) {
+          this.props.loadUser(user)
+          this.props.onRouteChange('home');
+        }
+      })
   }
 
   render() {
