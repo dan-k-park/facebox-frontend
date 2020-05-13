@@ -18,4 +18,4 @@ const Nav = props => {
   }
 }
 
-export default Nav
+export default Nav;
