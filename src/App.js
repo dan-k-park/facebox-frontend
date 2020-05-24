@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js'
-import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Nav from './components/Nav/Nav';
 import Signin from './components/Signin/Signin';
@@ -9,10 +8,6 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import './App.css';
-
-const app = new Clarifai.App({
-  apiKey: '3a26b90bf70c4409a173444a79c7f964'
-})
 
 const particlesOptions = {
   particles: {
@@ -26,23 +21,25 @@ const particlesOptions = {
   }
 }
 
+const initialState = {
+  input: '',
+  imgUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
+
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imgUrl: '',
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state = initialState
   }
 
   loadUser = data => {
@@ -80,7 +77,14 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({ imgUrl: this.state.input })
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3000/imageurl', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(res => res.json())
     .then(res => {
       if (res) {
         fetch('http://localhost:3000/image', {
@@ -102,7 +106,7 @@ class App extends Component {
 
   onRouteChange = route => {
     if (route === 'signout') {
-      this.setState({ isSignedIn: false })
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
     }
